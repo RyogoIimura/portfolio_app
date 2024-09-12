@@ -2,6 +2,7 @@
 
 // import type { Metadata } from "next";
 import { Noto_Sans_JP } from 'next/font/google'
+import { HEAD } from '../data/AppData'
 
 const noto_sans_jp = Noto_Sans_JP({
   subsets: ['latin'],
@@ -19,10 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="jp">
+    <html lang={HEAD.LOCALE}>
       <head>
-        <title>AZUMA GORGE SAUNA</title>
-        <meta name="description" content="AZUMA GORGE SAUNA はテントサウナレンタルサービスを行っています"/>
+        <title>{HEAD.NAME}</title>
+        <meta name="description" content={HEAD.DESCRIPTION}/>
       </head>
       <body className={noto_sans_jp.className}>{children}</body>
     </html>
