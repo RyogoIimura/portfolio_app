@@ -2,10 +2,14 @@
 import { manrope } from "../utils/fonts";
 import { css } from "@emotion/react";
 
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
 export default function Lp() {
   return (
     <>
-      <p
+      <Header />
+      {/* <p
         className={`${manrope.className}`}
         style={{ fontWeight: 400 }}
         css={text}
@@ -19,7 +23,8 @@ export default function Lp() {
         style={{ fontWeight: 800 }}
       >Manrope</p>
       <p>あいうえお</p>
-      <p style={{ fontWeight: 700 }}>あいうえお</p>
+      <p style={{ fontWeight: 700 }}>あいうえお</p> */}
+      <Footer />
     </>
   );
 }
