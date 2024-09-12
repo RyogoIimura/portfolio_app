@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+img, svg {
+  width: 100%;
+}
+svg {
+  overflow: hidden;
+}
