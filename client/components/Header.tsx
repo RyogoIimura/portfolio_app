@@ -1,9 +1,10 @@
 "use client";
-import { manrope } from "../utils/Fonts";
 import { css } from "@emotion/react";
+import Link from "next/link";
 
 import { PROJECT } from '../data/AppData'
-import Link from "next/link";
+import { manrope, dela_gothic } from "../utils/Fonts";
+import { Responsive } from '../utils/Responsive';
 
 const Header = () => {
 
@@ -17,18 +18,24 @@ const Header = () => {
           css={styles.headerContContainer}
         >
           <Link
-            css={styles.headerText}
-            href="">▶︎ ご予約はこちらから</Link>
+            css={styles.reserveLink}
+            href="">▶︎　ご予約はこちらから</Link>
           <h2
             className={` ${manrope.className}`}
-            css={styles.headerText}
+            css={[styles.headerTitle, Responsive.pc]}
           >AZUMA GORGE SAUNA</h2>
-          <div>
-          <Link
-            className={` ${manrope.className}`}
-            css={styles.headerText}
-            href=""
-          >Sign In</Link>
+          <div
+            css={styles.hamburgerContainer}
+          >
+            <h2
+              className={` ${manrope.className}`}
+              css={[styles.headerTitle, Responsive.sp]}
+            >AZUMA GORGE SAUNA</h2>
+            <Link
+              className={` ${dela_gothic.className}`}
+              css={[styles.signIn, Responsive.pc]}
+              href=""
+            >SIGN IN</Link>
             <div
               css={styles.hamburger}
             >
@@ -46,15 +53,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* bg */}
-      <div
-        css={styles.bg}
-      ></div>
-
-      {/* nav menu */}
-      <div
-        css={styles.navContainer}
-      ></div>
+      {/* bg, nav menu */}
     </>
   );
 };
@@ -63,52 +62,86 @@ export default Header;
 const styles = {
   headerContainer: css`
     width: 100%;
-    height: 100px;
+    height: 50px;
     background-color: ${PROJECT.KEYCOLOR};
     position: fixed;
+    z-index: 100;
     top: 0;
     left: 0;
 
     @media (min-width: ${PROJECT.BP}px) {
-      height: 100px;
+      height: 70px;
     }
   `,
   headerContContainer: css`
     width: 100%;
     height: 100%;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
     position: relative;
 
     @media (min-width: ${PROJECT.BP}px) {
+      padding-left: 30px;
     }
   `,
-  headerText: css `
-    font-size: 10px;
+  reserveLink: css `
+    font-size: 9px;
     font-weight: 800;
     color: #fff;
+    margin: auto 0;
+    text-decoration: none;
 
     @media (min-width: ${PROJECT.BP}px) {
+      font-size: 16px;
     }
   `,
-  hamburger: css`
+
+  hamburgerContainer: css `
+    width: fit-content;
+    height: 100%;
+    display: flex;
+  `,
+  headerTitle: css `
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    color: #fff;
+    margin: auto 10px auto 0;
+
     @media (min-width: ${PROJECT.BP}px) {
+      font-size: 18px;
+      margin: auto 0;
+    }
+  `,
+  signIn: css `
+    @media (min-width: ${PROJECT.BP}px) {
+      font-size: 20px;
+      color: #fff;
+      letter-spacing: .02em;
+      margin: auto 30px auto 0;
+    }
+  `, 
+  hamburger: css`
+    width: 50px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      width: 70px;
     }
   `,
   hamburgerLine: css `
-    @media (min-width: ${PROJECT.BP}px) {
-    }
-  `,
+    width: 43%;
+    height: 1px;
+    background-color: #fff;
+    margin: 2px auto;
 
-  bg: css `
-    width: 100vw;
-    height: 100vh;
-    background-color: #000;
-    opacity: .5;
-    position: fixed;
-    top: 0;
-    left: 0;
-  `,
-  navContainer: css `
     @media (min-width: ${PROJECT.BP}px) {
+      height: 2px;
+      margin: 4px auto;
     }
   `
 }

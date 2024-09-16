@@ -8,5 +8,6 @@ export const HEAD = {
 // 共通で使用する値
 export const PROJECT = {
   BP: 768,
-  KEYCOLOR: '#000',
+  KEYCOLOR: '#004953',
+  SUBCOLOR: '#E09900',
 }
