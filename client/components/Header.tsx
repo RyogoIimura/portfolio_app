@@ -1,12 +1,16 @@
 "use client";
 import { css } from "@emotion/react";
 import Link from "next/link";
+import { useState } from "react";
 
 import { PROJECT } from '../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
 import { Responsive } from '../utils/Responsive';
+import Navigation from './Navigation';
 
 const Header = () => {
+  const [navFlag, setNavFlag] = useState<boolean>(false);
+  const navOpen = () => setNavFlag(!navFlag);
 
   return (
     <>
@@ -38,6 +42,7 @@ const Header = () => {
             >SIGN IN</Link>
             <div
               css={styles.hamburger}
+              onClick={navOpen}
             >
               <div
                 css={styles.hamburgerLine}
@@ -54,6 +59,10 @@ const Header = () => {
       </div>
 
       {/* bg, nav menu */}
+      <Navigation
+        navFlag={navFlag}
+        navOpen={navOpen}
+      />
     </>
   );
 };
@@ -121,13 +130,14 @@ const styles = {
       letter-spacing: .02em;
       margin: auto 30px auto 0;
     }
-  `, 
+  `,
   hamburger: css`
     width: 50px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    cursor: pointer;
 
     @media (min-width: ${PROJECT.BP}px) {
       width: 70px;
