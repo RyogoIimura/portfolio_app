@@ -7,6 +7,7 @@ import { PROJECT } from '../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
 import { Easing } from '../utils/Easing';
+import PageLinks from './PageLinks';
 
 type NavigationProps = {
   navFlag: boolean;
@@ -32,15 +33,24 @@ const Navigation = (props: NavigationProps) => {
           onClick={navOpen}
         >
           <div
-            css={styles.hamburgerLine}
+            css={[styles.hamburgerLine, styles.hamburgerLine1]}
           ></div>
           <div
-            css={styles.hamburgerLine}
-          ></div>
-          <div
-            css={styles.hamburgerLine}
+            css={[styles.hamburgerLine, styles.hamburgerLine2]}
           ></div>
         </div>
+        <Link
+          css={styles.reserveLink}
+          href=""
+        >▶︎　ご予約はこちらから</Link>
+        <div>
+          <PageLinks />
+        </div>
+        <Link
+          className={` ${dela_gothic.className}`}
+          css={[styles.signIn, Responsive.sp]}
+          href=""
+        >SIGN IN</Link>
       </div>
     </>
   );
@@ -70,22 +80,23 @@ const styles = {
     z-index: 110;
     top: 0;
     right: 0;
-    transition: transform .5s ${Easing.outCubic};
+
+    opacity: 1;
+    transition: transform .6s ${Easing.outExpo}, opacity .4s ${Easing.outExpo};
 
     @media (min-width: ${PROJECT.BP}px) {
     }
   `,
   navAnime: css `
+    opacity: 0;
     transform: translateX(100%)
   `,
 
   hamburger: css`
     width: 50px;
     height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin-left: auto;
+    position: relative;
     cursor: pointer;
 
     @media (min-width: ${PROJECT.BP}px) {
@@ -97,11 +108,35 @@ const styles = {
     width: 43%;
     height: 1px;
     background-color: #fff;
-    margin: 2px auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
     @media (min-width: ${PROJECT.BP}px) {
       height: 2px;
-      margin: 4px auto;
+    },
+  `,
+  hamburgerLine1: css `
+    transform: translate(-50%, -50%) rotate(-45deg);
+  `,
+  hamburgerLine2: css `
+    transform: translate(-50%, -50%) rotate(45deg);
+  `,
+  reserveLink: css `
+    font-size: 9px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 auto;
+    text-decoration: none;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      font-size: 16px;
     }
-  `
+  `,
+  signIn: css `
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: .02em;
+    margin: 0 auto;
+  `,
 }

@@ -23,7 +23,8 @@ const Header = () => {
         >
           <Link
             css={styles.reserveLink}
-            href="">▶︎　ご予約はこちらから</Link>
+            href=""
+          >▶︎　ご予約はこちらから</Link>
           <h2
             className={` ${manrope.className}`}
             css={[styles.headerTitle, Responsive.pc]}
