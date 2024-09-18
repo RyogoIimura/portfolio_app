@@ -40,10 +40,11 @@ const styles = {
     width: 100vw;
     height: ${vw(600)};
     position: relative;
-    margin-top: 10vw;
+    margin-top: ${vw(180)};
 
     @media (min-width: ${PROJECT.BP}px) {
       height: 47vw;
+      margin-top: 130px;
     }
   `,
 

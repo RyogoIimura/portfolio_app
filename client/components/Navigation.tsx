@@ -39,6 +39,10 @@ const Navigation = (props: NavigationProps) => {
             css={[styles.hamburgerLine, styles.hamburgerLine2]}
           ></div>
         </div>
+        <h2
+          className={` ${manrope.className}`}
+          css={styles.navTitle}
+        >AZUMA GORGE SAUNA</h2>
         <Link
           css={styles.reserveLink}
           href=""
@@ -76,6 +80,8 @@ const styles = {
     width: ${vw(550)};
     height: 100vh;
     background-color: ${PROJECT.KEYCOLOR};
+    padding: 0 0 ${vw(400)} ${vw(60)};
+    overflow-y: scroll;
     position: fixed;
     z-index: 110;
     top: 0;
@@ -85,6 +91,8 @@ const styles = {
     transition: transform .6s ${Easing.outExpo}, opacity .4s ${Easing.outExpo};
 
     @media (min-width: ${PROJECT.BP}px) {
+      width: 400px;
+      padding: 0 0 270px 30px;
     }
   `,
   navAnime: css `
@@ -122,21 +130,39 @@ const styles = {
   hamburgerLine2: css `
     transform: translate(-50%, -50%) rotate(45deg);
   `,
+  navTitle: css `
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    color: #fff;
+    margin-top: -32px;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      font-size: 18px;
+      margin-top: -48px;
+    }
+  `,
   reserveLink: css `
-    font-size: 9px;
+    font-size: ${vw(28)};
     font-weight: 800;
     color: #fff;
-    margin: 0 auto;
+    display:inline-block;
+    margin-top: ${vw(200)};
     text-decoration: none;
 
     @media (min-width: ${PROJECT.BP}px) {
-      font-size: 16px;
+      font-size: 18px;
+      margin-top: 110px;
     }
   `,
   signIn: css `
-    font-size: 20px;
+    font-size: ${vw(38)};
+    font-weight: 800;
+    letter-spacing: .1em;
     color: #fff;
-    letter-spacing: .02em;
-    margin: 0 auto;
+    display: inline-block;
+    margin-top: ${vw(190)};
+    text-decoration: none;
+    border-bottom: 2px solid #fff;
   `,
 }

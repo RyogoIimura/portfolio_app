@@ -1,15 +1,12 @@
 "use client";
 import { css } from "@emotion/react";
-import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
 
 import { PROJECT } from '../data/AppData'
-import { manrope, dela_gothic } from "../utils/Fonts";
+import { dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
-import { Easing } from '../utils/Easing';
 
 const PageLinks = () => {
-  const linksName = ['AAA', 'BBB', 'CCC', 'DDD'];
+  const linksName = ['CONCEPT', 'FEATURE', 'SAUNA', 'PRICE'];
 
   return (
     <>
@@ -17,10 +14,10 @@ const PageLinks = () => {
         <div
           key={index}
           className={` ${dela_gothic.className}`}
-          css={styles.reserveLink}
+          css={styles.pageLink}
         >
           <span
-            css={styles.reserveLinkDot}
+            css={styles.pageLinkDot}
           >・&nbsp;</span>
           {linksName[index]}
         </div>
@@ -31,27 +28,19 @@ const PageLinks = () => {
 export default PageLinks;
 
 const styles = {
-  reserveLink: css `
-    font-size: 9px;
+  pageLink: css `
+    font-size: ${vw(38)};
     font-weight: 800;
+    letter-spacing: .1em;
     color: #fff;
-    margin: auto 0;
+    margin-top: ${vw(60)};
     text-decoration: none;
-    cursor: pointer;
 
     @media (min-width: ${PROJECT.BP}px) {
-      font-size: 16px;
-    }
+    font-size: 25px;
+    margin-top: 50px;
   `,
-  reserveLinkDot: css `
-    font-size: 9px;
-    font-weight: 800;
+  pageLinkDot: css `
     color: ${PROJECT.SUBCOLOR};
-    margin: auto 0;
-    text-decoration: none;
-
-    @media (min-width: ${PROJECT.BP}px) {
-      font-size: 16px;
-    }
   `,
 }
