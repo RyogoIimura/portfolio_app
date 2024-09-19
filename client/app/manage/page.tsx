@@ -13,74 +13,143 @@ export default function Complete() {
   return (
     <>
       <div css={styles.manageWrapper}>
-        <div css={styles.itemContainer}>
-          <div css={styles.item}>
-            <p css={styles.itemText}>品目</p>
+
+        {/* アイテム位置一覧 */}
+        <div css={[styles.baseContainer, styles.itemContainer]}>
+          <div css={styles.baseFlex}>
+            <p css={styles.baseText}>品目</p>
             {
               editFlag ?
-              <input type="text" /> :
-              <p css={styles.itemText}>テントサウナ</p>
+              <input css={styles.baseText} type="text" /> :
+              <p css={styles.baseText}>テントサウナ</p>
             }
           </div>
-          <div css={styles.item}>
-            <p css={styles.itemText}>カテゴリー</p>
+          <div css={styles.baseFlex}>
+            <p css={styles.baseText}>カテゴリー</p>
             {
               editFlag ?
-              <input type="text" /> :
-              <p css={styles.itemText}>0</p>
+              <select name="category" css={styles.baseText}>
+                <option value="0">0</option>
+                <option value="1">1</option>
+              </select> :
+              <p css={styles.baseText}>0</p>
             }
           </div>
-          <div css={styles.item}>
-            <p css={styles.itemText}>値段</p>
+          <div css={styles.baseFlex}>
+            <p css={styles.baseText}>値段</p>
             {
               editFlag ?
-              <input type="text" /> :
-              <p css={styles.itemText}>18000</p>
+              <input css={styles.baseText} type="text" /> :
+              <p css={styles.baseText}>18000</p>
             }
           </div>
-          <div css={styles.item}>
-            <p css={styles.itemText}>最高温度</p>
+          <div css={styles.baseFlex}>
+            <p css={styles.baseText}>最高温度</p>
             {
               editFlag ?
-              <input type="text" /> :
-              <p css={styles.itemText}>110</p>
+              <input css={styles.baseText} type="text" /> :
+              <p css={styles.baseText}>110</p>
             }
           </div>
-          <div css={styles.item}>
-            <p css={styles.itemText}>収容人数</p>
+          <div css={styles.baseFlex}>
+            <p css={styles.baseText}>収容人数</p>
             {
               editFlag ?
-              <input type="text" /> :
-              <p css={styles.itemText}>4</p>
+              <select name="capacity" css={styles.baseText}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select> :
+              <p css={styles.baseText}>4</p>
             }
           </div>
           <div css={styles.itemButtonContainer}>
-            <button
-              css={styles.button}
-              className={` ${dela_gothic.className}`}
-              onClick={() => setEditFlag(!editFlag)}
-            >編集</button>
-            <button
-              css={[styles.button, styles.deleteButton]}
-              className={` ${dela_gothic.className}`}
-            >削除</button>
+            {
+              editFlag ?
+              <>
+                <button
+                  css={styles.button}
+                  className={` ${dela_gothic.className}`}
+                  onClick={() => setEditFlag(!editFlag)}
+                >完了</button>
+              </> :
+              <>
+                <button
+                  css={styles.button}
+                  className={` ${dela_gothic.className}`}
+                  onClick={() => setEditFlag(!editFlag)}
+                >編集</button>
+                <button
+                  css={[styles.button, styles.deleteButton]}
+                  className={` ${dela_gothic.className}`}
+                >削除</button>
+              </>
+            }
           </div>
         </div>
 
+        {/* アイテム追加ボタン */}
         <div css={styles.addButtonContainer}>
           <button
             css={[styles.button, styles.addButton]}
             className={` ${dela_gothic.className}`}
+            onClick={() => setAddFlag(!addFlag)}
           >追加</button>
         </div>
 
+        {/* モーダル背景 */}
         <div
           css={addFlag ? styles.bg : [styles.bg, styles.bgAnime]}
-          onClick={() => setAddFlag(!false)}
+          onClick={() => setAddFlag(!addFlag)}
         ></div>
+
+        {/* アイテム追加のモーダル */}
         <div
           css={addFlag ? styles.addMdContainer : [styles.addMdContainer, styles.addMdAnime]}
-        ></div>
+        >
+          <div css={styles.baseContainer}>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>品目</p>
+              <input css={styles.baseText} type="text" />
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>カテゴリー</p>
+              <select name="category" css={styles.baseText}>
+                <option value="0">0</option>
+                <option value="1">1</option>
+              </select>
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>値段</p>
+              <input css={styles.baseText} type="text" />
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>最高温度</p>
+              <input css={styles.baseText} type="text" />
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>収容人数</p>
+              <select name="capacity" css={styles.baseText}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+            <div css={styles.addButtonContainer}>
+              <button
+                css={[styles.button, styles.addButton]}
+                className={` ${dela_gothic.className}`}
+                onClick={() => setAddFlag(!addFlag)}
+              >完了</button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -94,23 +163,35 @@ const styles = {
     @media (min-width: ${PROJECT.BP}px) {
     }
   `,
-  itemContainer: css `
-    background-color: #9d9d9d;
+
+  baseContainer: css `
+    width: ${vw(700)};
+    background-color: #fff;
     padding: ${vw(100)} ${vw(60)};
 
     @media (min-width: ${PROJECT.BP}px) {
     }
   `,
-  item: css `
+  baseFlex: css `
     width: 100%;
     display: flex;
     justify-content: space-between;
 
+    &:not(:first-child) {
+      margin-top: ${vw(40)};
+    }
+
     @media (min-width: ${PROJECT.BP}px) {
     }
   `,
-  itemText: css `
+  baseText: css `
     width: fit-content;
+
+    @media (min-width: ${PROJECT.BP}px) {
+    }
+  `,
+  itemContainer: css `
+    background-color: #9d9d9d;
 
     @media (min-width: ${PROJECT.BP}px) {
     }
@@ -167,19 +248,13 @@ const styles = {
     display: none;
   `,
   addMdContainer: css `
-    width: ${vw(550)};
-    background-color: ${PROJECT.KEYCOLOR};
-    padding: 0 0 ${vw(400)} ${vw(60)};
-    overflow-y: scroll;
     position: fixed;
     z-index: 110;
-    top: 50%;
-    right: 50%;
-    transform: translate(-50%, -50%)
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%,-50%);
 
     @media (min-width: ${PROJECT.BP}px) {
-      width: 400px;
-      padding: 0 0 270px 30px;
     }
   `,
   addMdAnime: css `
