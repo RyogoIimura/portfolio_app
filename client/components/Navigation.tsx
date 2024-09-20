@@ -81,7 +81,6 @@ const styles = {
     height: 100vh;
     background-color: ${PROJECT.KEYCOLOR};
     padding: 0 0 ${vw(400)} ${vw(60)};
-    overflow-y: scroll;
     position: fixed;
     z-index: 110;
     top: 0;
