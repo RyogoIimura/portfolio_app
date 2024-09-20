@@ -10,4 +10,5 @@ export const PROJECT = {
   BP: 768,
   KEYCOLOR: '#004953',
   SUBCOLOR: '#E09900',
+  BGCOLOR: '#EBEBEB'
 }
