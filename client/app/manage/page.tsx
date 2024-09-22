@@ -1,12 +1,23 @@
 "use client";
 import { useState } from "react";
 import { css } from "@emotion/react";
+import useSWR from "swr";
 
 import { PROJECT } from '../../data/AppData';
 import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
+import { ItemType } from "@/types/types";
 
-export default function Complete() {
+
+async function fetcher(key: string) {
+  return fetch(key).then((res) => res.json());
+}
+
+export default function Manage() {
+  const { data, isLoading, error } = useSWR(
+    "http://localhost:8080/allItems",
+    fetcher
+  );
   const [editFlag, setEditFlag] = useState(false);
   const [addFlag, setAddFlag] = useState(false);
 
@@ -14,82 +25,87 @@ export default function Complete() {
     <>
       <div css={styles.manageWrapper}>
 
-        {/* アイテム位置一覧 */}
-        <div css={[styles.baseContainer, styles.itemContainer]}>
-          <div css={styles.baseFlex}>
-            <p css={styles.baseText}>品目</p>
-            {
-              editFlag ?
-              <input css={styles.baseText} type="text" /> :
-              <p css={styles.baseText}>テントサウナ</p>
-            }
+        {/* アイテム一覧 */}
+        {data?.map((item: ItemType) => (
+          <div
+            key={item.id}
+            css={[styles.baseContainer, styles.itemContainer]}
+          >
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>品目</p>
+              {
+                editFlag ?
+                <input css={styles.baseText} type="text" /> :
+                <p css={styles.baseText}>テントサウナ</p>
+              }
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>カテゴリー</p>
+              {
+                editFlag ?
+                <select name="category" css={styles.baseText}>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                </select> :
+                <p css={styles.baseText}>0</p>
+              }
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>値段</p>
+              {
+                editFlag ?
+                <input css={styles.baseText} type="text" /> :
+                <p css={styles.baseText}>18000</p>
+              }
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>最高温度</p>
+              {
+                editFlag ?
+                <input css={styles.baseText} type="text" /> :
+                <p css={styles.baseText}>110</p>
+              }
+            </div>
+            <div css={styles.baseFlex}>
+              <p css={styles.baseText}>収容人数</p>
+              {
+                editFlag ?
+                <select name="capacity" css={styles.baseText}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select> :
+                <p css={styles.baseText}>4</p>
+              }
+            </div>
+            <div css={styles.itemButtonContainer}>
+              {
+                editFlag ?
+                <>
+                  <button
+                    css={styles.button}
+                    className={` ${dela_gothic.className}`}
+                    onClick={() => setEditFlag(!editFlag)}
+                  >完了</button>
+                </> :
+                <>
+                  <button
+                    css={styles.button}
+                    className={` ${dela_gothic.className}`}
+                    onClick={() => setEditFlag(!editFlag)}
+                  >編集</button>
+                  <button
+                    css={[styles.button, styles.deleteButton]}
+                    className={` ${dela_gothic.className}`}
+                  >削除</button>
+                </>
+              }
+            </div>
           </div>
-          <div css={styles.baseFlex}>
-            <p css={styles.baseText}>カテゴリー</p>
-            {
-              editFlag ?
-              <select name="category" css={styles.baseText}>
-                <option value="0">0</option>
-                <option value="1">1</option>
-              </select> :
-              <p css={styles.baseText}>0</p>
-            }
-          </div>
-          <div css={styles.baseFlex}>
-            <p css={styles.baseText}>値段</p>
-            {
-              editFlag ?
-              <input css={styles.baseText} type="text" /> :
-              <p css={styles.baseText}>18000</p>
-            }
-          </div>
-          <div css={styles.baseFlex}>
-            <p css={styles.baseText}>最高温度</p>
-            {
-              editFlag ?
-              <input css={styles.baseText} type="text" /> :
-              <p css={styles.baseText}>110</p>
-            }
-          </div>
-          <div css={styles.baseFlex}>
-            <p css={styles.baseText}>収容人数</p>
-            {
-              editFlag ?
-              <select name="capacity" css={styles.baseText}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </select> :
-              <p css={styles.baseText}>4</p>
-            }
-          </div>
-          <div css={styles.itemButtonContainer}>
-            {
-              editFlag ?
-              <>
-                <button
-                  css={styles.button}
-                  className={` ${dela_gothic.className}`}
-                  onClick={() => setEditFlag(!editFlag)}
-                >完了</button>
-              </> :
-              <>
-                <button
-                  css={styles.button}
-                  className={` ${dela_gothic.className}`}
-                  onClick={() => setEditFlag(!editFlag)}
-                >編集</button>
-                <button
-                  css={[styles.button, styles.deleteButton]}
-                  className={` ${dela_gothic.className}`}
-                >削除</button>
-              </>
-            }
-          </div>
-        </div>
+        ))}
 
         {/* アイテム追加ボタン */}
         <div css={styles.addButtonContainer}>
