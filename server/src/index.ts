@@ -14,9 +14,12 @@ const prisma = new PrismaClient();
 // 全ての Todo を取得
 // findMany =	複数件取得
 //   条件に一致する全てのレコードを取得
-app.get("/allTodos", async (req: Request, res: Response) => {
-  const allTodos = await prisma.items.findMany();
-  return res.json(allTodos);
+app.get("/allItems", async (req: Request, res: Response) => {
+  const allItems = await prisma.items.findMany();
+  const new_data = JSON.stringify(allItems, (key, value) => {  
+    return typeof value === 'bigint' ? value.toString() : value;  
+  });
+  return res.json(JSON.parse(new_data));
 });
 
 // Todo を作成
@@ -73,4 +76,4 @@ app.get("/allTodos", async (req: Request, res: Response) => {
 //   }
 // });
 
-// app.listen(PORT, () => console.log("server is running🚀"));
+app.listen(PORT, () => console.log("server is running🚀"));
