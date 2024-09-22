@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { css } from "@emotion/react";
 import useSWR from "swr";
 
@@ -19,7 +19,39 @@ export default function Manage() {
     fetcher
   );
   const [editFlag, setEditFlag] = useState(false);
+  const [editItemId, setEditItemId] = useState("");
+  const editItem = (id: string) => {
+    setEditFlag(!editFlag)
+    setEditItemId(id)
+  }
   const [addFlag, setAddFlag] = useState(false);
+
+  const inputNameRef = useRef<HTMLInputElement | null>(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if( inputNameRef.current ){
+      console.log(inputNameRef.current)
+    }
+    console.log(inputNameRef.current?.value)
+
+    // const response = await fetch(`${API_URL}/createTodo`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     title: inputNameRef.current?.value,
+    //     isCompleted: false,
+    //   }),
+    // });
+
+    // if (response.ok) {
+    //   const newTodo = await response.json();
+    //   mutate([...todos, newTodo]);
+    //   if (inputNameRef.current?.value) {
+    //     inputNameRef.current.value = "";
+    //   }
+    // }
+  };
 
   return (
     <>
@@ -27,49 +59,50 @@ export default function Manage() {
 
         {/* アイテム一覧 */}
         {data?.map((item: ItemType) => (
-          <div
+          <form
             key={item.id}
             css={[styles.baseContainer, styles.itemContainer]}
+            onSubmit={handleSubmit}
           >
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>品目</p>
               {
-                editFlag ?
-                <input css={styles.baseText} type="text" /> :
-                <p css={styles.baseText}>テントサウナ</p>
+                editFlag && editItemId === item.id ?
+                <input css={styles.baseText} type="text" ref={inputNameRef} /> :
+                <p css={styles.baseText}>{item.name}</p>
               }
             </div>
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>カテゴリー</p>
               {
-                editFlag ?
+                editFlag && editItemId === item.id ?
                 <select name="category" css={styles.baseText}>
                   <option value="0">0</option>
                   <option value="1">1</option>
                 </select> :
-                <p css={styles.baseText}>0</p>
+                <p css={styles.baseText}>{item.category}</p>
               }
             </div>
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>値段</p>
               {
-                editFlag ?
+                editFlag && editItemId === item.id ?
                 <input css={styles.baseText} type="text" /> :
-                <p css={styles.baseText}>18000</p>
+                <p css={styles.baseText}>{item.price}</p>
               }
             </div>
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>最高温度</p>
               {
-                editFlag ?
+                editFlag && editItemId === item.id ?
                 <input css={styles.baseText} type="text" /> :
-                <p css={styles.baseText}>110</p>
+                <p css={styles.baseText}>{item.maximum_temperature}</p>
               }
             </div>
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>収容人数</p>
               {
-                editFlag ?
+                editFlag && editItemId === item.id ?
                 <select name="capacity" css={styles.baseText}>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -78,16 +111,17 @@ export default function Manage() {
                   <option value="5">5</option>
                   <option value="6">6</option>
                 </select> :
-                <p css={styles.baseText}>4</p>
+                <p css={styles.baseText}>{item.category}</p>
               }
             </div>
             <div css={styles.itemButtonContainer}>
               {
-                editFlag ?
+                editFlag && editItemId === item.id ?
                 <>
                   <button
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
+                    type="submit"
                     onClick={() => setEditFlag(!editFlag)}
                   >完了</button>
                 </> :
@@ -95,7 +129,7 @@ export default function Manage() {
                   <button
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
-                    onClick={() => setEditFlag(!editFlag)}
+                    onClick={() => editItem(item.id)}
                   >編集</button>
                   <button
                     css={[styles.button, styles.deleteButton]}
@@ -104,7 +138,7 @@ export default function Manage() {
                 </>
               }
             </div>
-          </div>
+          </form>
         ))}
 
         {/* アイテム追加ボタン */}
@@ -220,6 +254,16 @@ const styles = {
   `,
   itemContainer: css `
     background-color: ${PROJECT.BGCOLOR};
+
+    &:not(:first-child) {
+      margin-top: ${vw(40)};
+    }
+
+    @media (min-width: ${PROJECT.BP}px) {
+      &:not(:first-child) {
+        margin-top: 40px;
+      }
+    }
   `,
 
   itemButtonContainer: css `
