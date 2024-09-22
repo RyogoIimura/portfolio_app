@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import useSWR from "swr";
 
@@ -18,40 +18,31 @@ export default function Manage() {
     "http://localhost:8080/allItems",
     fetcher
   );
+
+  const [itemName, setItemName] = useState('');
+  const changeItemName = (e: string) => setItemName(e.target.value);
+  const [itemPrice, setItemPrice] = useState('');
+  const changeItemPrice = (e: string) => setItemPrice(e.target.value);
+  const [itemTemperature, setItemTemperature] = useState('');
+  const changeItemTemperature = (e: string) => setItemTemperature(e.target.value);
+
   const [editFlag, setEditFlag] = useState(false);
   const [editItemId, setEditItemId] = useState("");
-  const editItem = (id: string) => {
+  const editItem = (item: ItemType) => {
+    setItemName(item.name)
+    setItemPrice(item.price)
+    setItemTemperature(item.maximum_temperature)
+
     setEditFlag(!editFlag)
-    setEditItemId(id)
+    setEditItemId(item.id)
   }
-  const [addFlag, setAddFlag] = useState(false);
-
-  const inputNameRef = useRef<HTMLInputElement | null>(null);
-  const handleSubmit = async (e: React.FormEvent) => {
+  
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if( inputNameRef.current ){
-      console.log(inputNameRef.current)
-    }
-    console.log(inputNameRef.current?.value)
-
-    // const response = await fetch(`${API_URL}/createTodo`, {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     title: inputNameRef.current?.value,
-    //     isCompleted: false,
-    //   }),
-    // });
-
-    // if (response.ok) {
-    //   const newTodo = await response.json();
-    //   mutate([...todos, newTodo]);
-    //   if (inputNameRef.current?.value) {
-    //     inputNameRef.current.value = "";
-    //   }
-    // }
+    console.log('submit')
   };
+
+  const [addFlag, setAddFlag] = useState(false);
 
   return (
     <>
@@ -68,7 +59,7 @@ export default function Manage() {
               <p css={styles.baseText}>品目</p>
               {
                 editFlag && editItemId === item.id ?
-                <input css={styles.baseText} type="text" ref={inputNameRef} /> :
+                <input css={styles.baseText} type="text" value={itemName} onChange={changeItemName} /> :
                 <p css={styles.baseText}>{item.name}</p>
               }
             </div>
@@ -87,7 +78,7 @@ export default function Manage() {
               <p css={styles.baseText}>値段</p>
               {
                 editFlag && editItemId === item.id ?
-                <input css={styles.baseText} type="text" /> :
+                <input css={styles.baseText} type="text" value={itemPrice} onChange={changeItemPrice} /> :
                 <p css={styles.baseText}>{item.price}</p>
               }
             </div>
@@ -95,7 +86,7 @@ export default function Manage() {
               <p css={styles.baseText}>最高温度</p>
               {
                 editFlag && editItemId === item.id ?
-                <input css={styles.baseText} type="text" /> :
+                <input css={styles.baseText} type="text" value={itemTemperature} onChange={changeItemTemperature} /> :
                 <p css={styles.baseText}>{item.maximum_temperature}</p>
               }
             </div>
@@ -119,20 +110,27 @@ export default function Manage() {
                 editFlag && editItemId === item.id ?
                 <>
                   <button
+                    type="submit"
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
-                    type="submit"
+                  >保存</button>
+                  <button
+                    type="button"
+                    css={[styles.button, styles.rightButton]}
+                    className={`${dela_gothic.className}`}
                     onClick={() => setEditFlag(!editFlag)}
                   >完了</button>
                 </> :
                 <>
                   <button
+                    type="button"
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
-                    onClick={() => editItem(item.id)}
+                    onClick={() => editItem(item)}
                   >編集</button>
                   <button
-                    css={[styles.button, styles.deleteButton]}
+                    type="button"
+                    css={[styles.button, styles.rightButton]}
                     className={` ${dela_gothic.className}`}
                   >削除</button>
                 </>
@@ -286,7 +284,7 @@ const styles = {
       font-size: 30px;
     }
   `,
-  deleteButton: css `
+  rightButton: css `
     margin-left: ${vw(30)};
 
     @media (min-width: ${PROJECT.BP}px) {
