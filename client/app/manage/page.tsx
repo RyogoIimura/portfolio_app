@@ -21,25 +21,53 @@ export default function Manage() {
 
   const [itemName, setItemName] = useState('');
   const changeItemName = (e: string) => setItemName(e.target.value);
+  const [itemCategory, setItemCategory] = useState(null);
+  const changeItemCategory = (e: bigint) => setItemCategory(e.target.value);
   const [itemPrice, setItemPrice] = useState('');
   const changeItemPrice = (e: string) => setItemPrice(e.target.value);
   const [itemTemperature, setItemTemperature] = useState('');
   const changeItemTemperature = (e: string) => setItemTemperature(e.target.value);
+  const [itemCapacity, setItemCapacity] = useState(null);
+  const changeItemCapacity = (e: bigint) => setItemCapacity(e.target.value);
 
   const [editFlag, setEditFlag] = useState(false);
   const [editItemId, setEditItemId] = useState("");
   const editItem = (item: ItemType) => {
     setItemName(item.name)
+    setItemCategory(item.category)
     setItemPrice(item.price)
     setItemTemperature(item.maximum_temperature)
+    setItemCapacity(item.capacity)
 
     setEditFlag(!editFlag)
     setEditItemId(item.id)
   }
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, item: ItemType) => {
     e.preventDefault();
     console.log('submit')
+
+    if (editFlag) {
+      const response = await fetch(`http://localhost:8080/editItem/${item.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: itemName,
+          category: itemCategory,
+          price: itemPrice,
+          capacity: itemCapacity,
+          maximum_temperature: itemTemperature,
+        }),
+      });
+
+      // if (response.ok) {
+      //   const editedTodo = await response.json();
+      //   const updatedTodos = item.map((todo: TodoType) =>
+      //     todo.id === editedTodo.id ? editedTodo : todo
+      //   );
+      //   mutate(updatedTodos);
+      // }
+    }
   };
 
   const [addFlag, setAddFlag] = useState(false);
@@ -53,7 +81,7 @@ export default function Manage() {
           <form
             key={item.id}
             css={[styles.baseContainer, styles.itemContainer]}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(e, item)}
           >
             <div css={styles.baseFlex}>
               <p css={styles.baseText}>品目</p>
@@ -67,7 +95,7 @@ export default function Manage() {
               <p css={styles.baseText}>カテゴリー</p>
               {
                 editFlag && editItemId === item.id ?
-                <select name="category" css={styles.baseText}>
+                <select name="category" css={styles.baseText} value={itemCategory} onChange={changeItemCategory}>
                   <option value="0">0</option>
                   <option value="1">1</option>
                 </select> :
@@ -94,7 +122,8 @@ export default function Manage() {
               <p css={styles.baseText}>収容人数</p>
               {
                 editFlag && editItemId === item.id ?
-                <select name="capacity" css={styles.baseText}>
+                <select name="capacity" css={styles.baseText} value={itemCapacity} onChange={changeItemCapacity}>
+                  <option value=""></option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -102,7 +131,7 @@ export default function Manage() {
                   <option value="5">5</option>
                   <option value="6">6</option>
                 </select> :
-                <p css={styles.baseText}>{item.category}</p>
+                <p css={styles.baseText}>{item.capacity}</p>
               }
             </div>
             <div css={styles.itemButtonContainer}>
@@ -114,25 +143,22 @@ export default function Manage() {
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
                   >保存</button>
-                  <button
-                    type="button"
+                  <div
                     css={[styles.button, styles.rightButton]}
                     className={`${dela_gothic.className}`}
                     onClick={() => setEditFlag(!editFlag)}
-                  >完了</button>
+                  >完了</div>
                 </> :
                 <>
-                  <button
-                    type="button"
+                  <div
                     css={styles.button}
                     className={` ${dela_gothic.className}`}
                     onClick={() => editItem(item)}
-                  >編集</button>
-                  <button
-                    type="button"
+                  >編集</div>
+                  <div
                     css={[styles.button, styles.rightButton]}
                     className={` ${dela_gothic.className}`}
-                  >削除</button>
+                  >削除</div>
                 </>
               }
             </div>

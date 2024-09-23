@@ -11,9 +11,7 @@ app.use(express.json());
 app.use(cors());
 const prisma = new PrismaClient();
 
-// 全ての Todo を取得
-// findMany =	複数件取得
-//   条件に一致する全てのレコードを取得
+// 全て取得
 app.get("/allItems", async (req: Request, res: Response) => {
   const allItems = await prisma.items.findMany();
   const new_data = JSON.stringify(allItems, (key, value) => {  
@@ -22,58 +20,59 @@ app.get("/allItems", async (req: Request, res: Response) => {
   return res.json(JSON.parse(new_data));
 });
 
-// Todo を作成
-// create	= 作成
-// app.post("/createTodo", async (req: Request, res: Response) => {
-//   try {
-//     const { title, isCompleted } = req.body;
-//     const createTodo = await prisma.todo.create({
-//       data: {
-//         title,
-//         isCompleted,
-//       },
-//     });
-//     return res.json(createTodo);
-//   } catch (e) {
-//     return res.status(400).json(e);
-//   }
-// });
+// 作成
+app.post("/createItem", async (req: Request, res: Response) => {
+  try {
+    const { name, category, price, capacity, maximum_temperature, created_at, updated_at } = req.body;
+    const createItem = await prisma.items.create({
+      data: {
+        name,
+        category,
+        price,
+        capacity,
+        maximum_temperature,
+        created_at,
+        updated_at
+      },
+    });
+    return res.json(createItem);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+});
 
-// Todo を編集
-// id = 任意の id
-// update	= 更新
-//   1.条件に一致するレコードを更新
-//   2.一意の識別子またはIDを指定する必要がある
-// app.put("/editTodo/:id", async (req: Request, res: Response) => {
-//   try {
-//     const id = Number(req.params.id);
-//     const { title, isCompleted } = req.body;
-//     const editTodo = await prisma.todo.update({
-//       where: { id },
-//       data: {
-//         title,
-//         isCompleted,
-//       },
-//     });
-//     return res.json(editTodo);
-//   } catch (e) {
-//     return res.status(400).json(e);
-//   }
-// });
+// 編集
+app.put("/editItem/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const { name, category, price, capacity, maximum_temperature } = req.body;
+    const editItem = await prisma.items.update({
+      where: { id },
+      data: {
+        name,
+        category,
+        price,
+        capacity,
+        maximum_temperature,
+      },
+    });
+    return res.json(editItem);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+});
 
-// Todo を削除（ : = 任意の id ）
-// delete	= 削除
-//   条件に一致するレコードを削除する
-// app.delete("/deleteTodo/:id", async (req: Request, res: Response) => {
-//   try {
-//     const id = Number(req.params.id);
-//     const deleteTodo = await prisma.todo.delete({
-//       where: { id },
-//     });
-//     return res.json(deleteTodo);
-//   } catch (e) {
-//     return res.status(400).json(e);
-//   }
-// });
+// Todo を削除
+app.delete("/deleteItem/:id", async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const deleteTodo = await prisma.items.delete({
+      where: { id },
+    });
+    return res.json(deleteTodo);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+});
 
 app.listen(PORT, () => console.log("server is running🚀"));
