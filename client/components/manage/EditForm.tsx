@@ -63,6 +63,19 @@ const EditForm = (props: propsType) => {
     setEditFlag(!editFlag)
   };
 
+  const handleDelete = async (id: string) => {
+    const response = await fetch(`http://localhost:8080/deleteItem/${item.id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    // if (response.ok) {
+    //   const deletedItem = await response.json();
+    //   const updatedItems = items.filter((item: ItemType) => item.id !== id);
+    //   mutate(updatedItems);
+    // }
+  };
+
   return (
     <>
       <form
@@ -142,6 +155,7 @@ const EditForm = (props: propsType) => {
                 type="button"
                 css={[styles.button, styles.rightButton]}
                 className={` ${dela_gothic.className}`}
+                onClick={handleDelete}
               >削除</button>
             </>
           }

@@ -64,10 +64,10 @@ app.put("/editItem/:id", async (req: Request, res: Response) => {
 app.delete("/deleteItem/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const deleteTodo = await prisma.items.delete({
+    const deleteItem = await prisma.items.delete({
       where: { id },
     });
-    return res.json(deleteTodo);
+    return res.json(deleteItem);
   } catch (e) {
     return res.status(400).json(e);
   }
