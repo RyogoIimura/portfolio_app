@@ -3,8 +3,8 @@ export type ItemType = {
   name: string;
   category: bigint;
   price: string;
-  capacity?: bigint;
-  maximum_temperature?: string;
+  capacity: bigint | null;
+  maximum_temperature: string | null;
   created_at: Date;
   updated_at: Date;
 }

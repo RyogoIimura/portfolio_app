@@ -67,8 +67,8 @@ model users {
   tel         String?  @db.VarChar
   address     String?
   birth       String?
-  created_at  DateTime
-  updated_at  DateTime
+  created_at  DateTime @updatedAt
+  updated_at  DateTime @updatedAt
 
   reservations        reservations[]
 
@@ -82,8 +82,8 @@ model items {
   price               String
   capacity            BigInt?
   maximum_temperature String?
-  created_at          DateTime
-  updated_at          DateTime
+  created_at          DateTime? @updatedAt
+  updated_at          DateTime? @updatedAt
 
   reservations        reservations[]
 }
@@ -95,8 +95,8 @@ model reservations {
   start_time   DateTime
   end_time     DateTime
   people_cont  Int
-  created_at   DateTime
-  updated_at   DateTime
+  created_at   DateTime @updatedAt
+  updated_at   DateTime @updatedAt
 
   users        users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   items        items    @relation(fields: [items_id], references: [id], onDelete: Cascade)

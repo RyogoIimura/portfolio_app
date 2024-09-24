@@ -23,7 +23,7 @@ app.get("/allItems", async (req: Request, res: Response) => {
 // 作成
 app.post("/createItem", async (req: Request, res: Response) => {
   try {
-    const { name, category, price, capacity, maximum_temperature, created_at, updated_at } = req.body;
+    const { name, category, price, capacity, maximum_temperature } = req.body;
     const createItem = await prisma.items.create({
       data: {
         name,
@@ -31,8 +31,6 @@ app.post("/createItem", async (req: Request, res: Response) => {
         price,
         capacity,
         maximum_temperature,
-        created_at,
-        updated_at
       },
     });
     return res.json(createItem);
