@@ -14,8 +14,8 @@ const prisma = new PrismaClient();
 // 全て取得
 app.get("/allItems", async (req: Request, res: Response) => {
   const allItems = await prisma.items.findMany();
-  const new_data = JSON.stringify(allItems, (key, value) => {  
-    return typeof value === 'bigint' ? value.toString() : value;  
+  const new_data = JSON.stringify(allItems, (key, value) => {
+    return typeof value === 'bigint' ? value.toString() : value;
   });
   return res.json(JSON.parse(new_data));
 });

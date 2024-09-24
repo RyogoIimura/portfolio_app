@@ -1,0 +1,291 @@
+"use client";
+import { useState } from "react";
+import { css } from "@emotion/react";
+
+import { PROJECT } from '../../data/AppData';
+import { vw } from '../../utils/Responsive';
+import { dela_gothic } from "../../utils/Fonts";
+import { ItemType } from "@/types/types";
+
+type propsType = {
+  item: ItemType;
+}
+
+const Form = (props: propsType) => {
+  const { item } = props;
+
+  const [itemName, setItemName] = useState('');
+  const changeItemName = (e: string) => setItemName(e.target.value);
+  const [itemCategory, setItemCategory] = useState(null);
+  const changeItemCategory = (e: bigint) => setItemCategory(e.target.value);
+  const [itemPrice, setItemPrice] = useState('');
+  const changeItemPrice = (e: string) => setItemPrice(e.target.value);
+  const [itemTemperature, setItemTemperature] = useState('');
+  const changeItemTemperature = (e: string) => setItemTemperature(e.target.value);
+  const [itemCapacity, setItemCapacity] = useState(null);
+  const changeItemCapacity = (e: bigint) => setItemCapacity(e.target.value);
+
+  const [editFlag, setEditFlag] = useState(false);
+  const [editItemId, setEditItemId] = useState("");
+  const editItem = () => {
+    setItemName(item.name)
+    setItemCategory(item.category)
+    setItemPrice(item.price)
+    setItemTemperature(item.maximum_temperature)
+    setItemCapacity(item.capacity)
+
+    setEditFlag(!editFlag)
+    setEditItemId(item.id)
+  }
+
+  const handleSubmit = async () => {
+    console.log('submit')
+
+    if (editFlag) {
+      const response = await fetch(`http://localhost:8080/editItem/${item.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: itemName,
+          category: itemCategory,
+          price: itemPrice,
+          capacity: itemCapacity,
+          maximum_temperature: itemTemperature,
+        }),
+      });
+
+      // if (response.ok) {
+      //   const editedTodo = await response.json();
+      //   const updatedTodos = item.map((todo: TodoType) =>
+      //     todo.id === editedTodo.id ? editedTodo : todo
+      //   );
+      //   mutate(updatedTodos);
+      // }
+    }
+  };
+
+  return (
+    <>
+      <form
+        key={item.id}
+        css={[styles.baseContainer, styles.itemContainer]}
+        onSubmit={handleSubmit()}
+      >
+        <div css={styles.baseFlex}>
+          <p css={styles.baseText}>品目</p>
+          {
+            editFlag && editItemId === item.id ?
+            <input css={styles.baseText} type="text" value={itemName} onChange={changeItemName} /> :
+            <p css={styles.baseText}>{item.name}</p>
+          }
+        </div>
+        <div css={styles.baseFlex}>
+          <p css={styles.baseText}>カテゴリー</p>
+          {
+            editFlag && editItemId === item.id ?
+            <select name="category" css={styles.baseText} value={itemCategory} onChange={changeItemCategory}>
+              <option value="0">0</option>
+              <option value="1">1</option>
+            </select> :
+            <p css={styles.baseText}>{item.category}</p>
+          }
+        </div>
+        <div css={styles.baseFlex}>
+          <p css={styles.baseText}>値段</p>
+          {
+            editFlag && editItemId === item.id ?
+            <input css={styles.baseText} type="text" value={itemPrice} onChange={changeItemPrice} /> :
+            <p css={styles.baseText}>{item.price}</p>
+          }
+        </div>
+        <div css={styles.baseFlex}>
+          <p css={styles.baseText}>最高温度</p>
+          {
+            editFlag && editItemId === item.id ?
+            <input css={styles.baseText} type="text" value={itemTemperature} onChange={changeItemTemperature} /> :
+            <p css={styles.baseText}>{item.maximum_temperature}</p>
+          }
+        </div>
+        <div css={styles.baseFlex}>
+          <p css={styles.baseText}>収容人数</p>
+          {
+            editFlag && editItemId === item.id ?
+            <select name="capacity" css={styles.baseText} value={itemCapacity} onChange={changeItemCapacity}>
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select> :
+            <p css={styles.baseText}>{item.capacity}</p>
+          }
+        </div>
+        <div css={styles.itemButtonContainer}>
+          {
+            editFlag && editItemId === item.id ?
+            <>
+              <button
+                type="button"
+                css={styles.button}
+                className={` ${dela_gothic.className}`}
+              >保存</button>
+              <div
+                css={[styles.button, styles.rightButton]}
+                className={`${dela_gothic.className}`}
+                onClick={() => setEditFlag(!editFlag)}
+              >完了</div>
+            </> :
+            <>
+              <div
+                css={styles.button}
+                className={` ${dela_gothic.className}`}
+                onClick={() => editItem(item)}
+              >編集</div>
+              <div
+                css={[styles.button, styles.rightButton]}
+                className={` ${dela_gothic.className}`}
+              >削除</div>
+            </>
+          }
+        </div>
+      </form>
+    </>
+  );
+};
+
+export default Form;
+
+const styles = {
+  manageWrapper: css `
+    margin: ${vw(140)} auto 0;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      margin: 120px auto 0;
+    }
+  `,
+
+  baseContainer: css `
+    width: ${vw(650)};
+    background-color: #fff;
+    padding: ${vw(80)} ${vw(50)};
+    margin: 0 auto;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      width: 600px;
+      padding: 70px 40px 60px;
+    }
+  `,
+  baseFlex: css `
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    &:not(:first-child) {
+      margin-top: ${vw(40)};
+    }
+
+    @media (min-width: ${PROJECT.BP}px) {
+      &:not(:first-child) {
+        margin-top: 40px;
+      }
+    }
+  `,
+  baseText: css `
+    font-size: ${vw(24)};
+    font-weight: 700;
+    width: fit-content;
+
+    @media (min-width: ${PROJECT.BP}px) {
+      font-size: 20px;
+    }
+  `,
+  inputText: css `
+    border: 2px solid ${PROJECT.BGCOLOR}
+  `,
+  itemContainer: css `
+    background-color: ${PROJECT.BGCOLOR};
+
+    &:not(:first-child) {
+      margin-top: ${vw(40)};
+    }
+
+    @media (min-width: ${PROJECT.BP}px) {
+      &:not(:first-child) {
+        margin-top: 40px;
+      }
+    }
+  `,
+
+  itemButtonContainer: css `
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: ${vw(40)};
+
+    @media (min-width: ${PROJECT.BP}px) {
+      margin-top: 40px;
+    }
+  `,
+  button: css `
+    font-size: ${vw(30)};
+    line-height: 1em;
+    color: ${PROJECT.SUBCOLOR};
+    border-bottom: 2px solid ${PROJECT.SUBCOLOR};
+
+    @media (min-width: ${PROJECT.BP}px) {
+      font-size: 30px;
+    }
+  `,
+  rightButton: css `
+    margin-left: ${vw(30)};
+
+    @media (min-width: ${PROJECT.BP}px) {
+      margin-left: 30px;
+    }
+  `,
+  addButtonContainer: css `
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: ${vw(60)};
+
+    @media (min-width: ${PROJECT.BP}px) {
+      margin-top: 60px;
+    }
+  `,
+  addButton: css `
+    color: ${PROJECT.KEYCOLOR};
+    border-bottom: 2px solid ${PROJECT.KEYCOLOR};
+  `,
+
+  bg: css `
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+    opacity: .5;
+    position: fixed;
+    z-index: 105;
+    top: 0;
+    left: 0;
+  `,
+  bgAnime: css `
+    display: none;
+  `,
+  addMdContainer: css `
+    width: ${vw(650)};
+    position: fixed;
+    z-index: 110;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%,-50%);
+
+    @media (min-width: ${PROJECT.BP}px) {
+      width: 600px;
+    }
+  `,
+  addMdAnime: css `
+    display: none;
+  `,
+}
