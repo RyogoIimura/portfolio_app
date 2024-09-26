@@ -16,11 +16,11 @@ type propsType = {
 const EditForm = (props: propsType) => {
   const { items, item } = props;
 
-  const [itemName, setItemName] = useState('');
-  const [itemCategory, setItemCategory] = useState(undefined);
-  const [itemPrice, setItemPrice] = useState('');
-  const [itemTemperature, setItemTemperature] = useState('');
-  const [itemCapacity, setItemCapacity] = useState(undefined);
+  const [itemName, setItemName] = useState<string>('');
+  const [itemCategory, setItemCategory] = useState<bigint>(BigInt(0));
+  const [itemPrice, setItemPrice] = useState<string>('');
+  const [itemTemperature, setItemTemperature] = useState<string | undefined>('');
+  const [itemCapacity, setItemCapacity] = useState<string | undefined>('');
 
   const [editFlag, setEditFlag] = useState(false);
   const [editItemId, setEditItemId] = useState("");
@@ -44,7 +44,7 @@ const EditForm = (props: propsType) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: itemName,
-          category: itemCategory,
+          category: itemCategory?.toString(),
           price: itemPrice,
           capacity: itemCapacity,
           maximum_temperature: itemTemperature,
@@ -64,7 +64,7 @@ const EditForm = (props: propsType) => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await fetch(`http://localhost:8080/deleteItem/${item.id}`, {
+    const response = await fetch(`http://localhost:8080/deleteItem/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
@@ -94,7 +94,7 @@ const EditForm = (props: propsType) => {
           <p css={styles.baseText}>カテゴリー</p>
           {
             editFlag && editItemId === item.id ?
-            <select name="category" css={styles.baseText} value={itemCategory} onChange={(e) => setItemCategory(e.target.value)}>
+            <select name="category" css={styles.baseText} value={itemCategory?.toString()} onChange={(e) => setItemCategory(BigInt(e.target.value))}>
               <option value="0">0</option>
               <option value="1">1</option>
             </select> :
@@ -155,7 +155,7 @@ const EditForm = (props: propsType) => {
                 type="button"
                 css={[styles.button, styles.rightButton]}
                 className={` ${dela_gothic.className}`}
-                onClick={handleDelete}
+                onClick={() => handleDelete(item.id)}
               >削除</button>
             </>
           }

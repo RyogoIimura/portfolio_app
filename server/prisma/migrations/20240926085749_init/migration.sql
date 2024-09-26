@@ -65,7 +65,7 @@ CREATE TABLE "items" (
     "name" TEXT NOT NULL,
     "category" BIGINT NOT NULL,
     "price" TEXT NOT NULL,
-    "capacity" BIGINT,
+    "capacity" TEXT,
     "maximum_temperature" TEXT,
     "created_at" TIMESTAMP(3),
     "updated_at" TIMESTAMP(3),

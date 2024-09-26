@@ -80,7 +80,7 @@ model items {
   name                String
   category            BigInt
   price               String
-  capacity            BigInt?
+  capacity            String?
   maximum_temperature String?
   created_at          DateTime? @updatedAt
   updated_at          DateTime? @updatedAt

@@ -15,11 +15,11 @@ type propsType = {
 const CreateForm = (props: propsType) => {
   const { items } = props;
 
-  const [itemName, setItemName] = useState('');
-  const [itemCategory, setItemCategory] = useState(undefined);
-  const [itemPrice, setItemPrice] = useState('');
-  const [itemTemperature, setItemTemperature] = useState('');
-  const [itemCapacity, setItemCapacity] = useState(undefined);
+  const [itemName, setItemName] = useState<string>('');
+  const [itemCategory, setItemCategory] = useState<bigint>(BigInt(0));
+  const [itemPrice, setItemPrice] = useState<string>('');
+  const [itemTemperature, setItemTemperature] = useState<string | undefined>('');
+  const [itemCapacity, setItemCapacity] = useState<string | undefined>();
 
   const [addFlag, setAddFlag] = useState(false);
 
@@ -31,7 +31,7 @@ const CreateForm = (props: propsType) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: itemName,
-        category: itemCategory,
+        category: itemCategory?.toString(),
         price: itemPrice,
         capacity: itemCapacity,
         maximum_temperature: itemTemperature,
@@ -76,7 +76,7 @@ const CreateForm = (props: propsType) => {
           </div>
           <div css={styles.baseFlex}>
             <p css={styles.baseText}>カテゴリー</p>
-            <select name="category" css={styles.baseText} value={itemCategory} onChange={(e) => setItemCategory(e.target.value)}>
+            <select name="category" css={styles.baseText} value={itemCategory?.toString()} onChange={(e) => setItemCategory(BigInt(e.target.value))}>
               <option value="0">0</option>
               <option value="1">1</option>
             </select>
