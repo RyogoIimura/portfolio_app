@@ -67,8 +67,8 @@ CREATE TABLE "items" (
     "price" TEXT NOT NULL,
     "capacity" TEXT,
     "maximum_temperature" TEXT,
-    "created_at" TIMESTAMP(3),
-    "updated_at" TIMESTAMP(3),
+    "created_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "items_pkey" PRIMARY KEY ("id")
 );

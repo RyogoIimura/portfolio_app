@@ -82,8 +82,8 @@ model items {
   price               String
   capacity            String?
   maximum_temperature String?
-  created_at          DateTime? @updatedAt
-  updated_at          DateTime? @updatedAt
+  created_at          DateTime @updatedAt
+  updated_at          DateTime @updatedAt
 
   reservations        reservations[]
 }
