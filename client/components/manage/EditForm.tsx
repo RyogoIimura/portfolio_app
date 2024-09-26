@@ -6,15 +6,16 @@ import { PROJECT } from '../../data/AppData';
 import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
 import { ItemType } from "@/types/types";
-import { mutate } from "swr";
+import { useItems } from '../../hooks/useItems';
+
 
 type propsType = {
-  items: ItemType[];
   item: ItemType;
 }
 
 const EditForm = (props: propsType) => {
-  const { items, item } = props;
+  const { items, isLoading, error, mutate } = useItems();
+  const { item } = props;
 
   const [itemName, setItemName] = useState<string>('');
   const [itemCategory, setItemCategory] = useState<bigint>(BigInt(0));
@@ -36,8 +37,6 @@ const EditForm = (props: propsType) => {
   }
 
   const handleSubmit = async () => {
-    console.log('submit')
-
     if (editFlag) {
       const response = await fetch(`http://localhost:8080/editItem/${item.id}`, {
         method: "PUT",
@@ -51,13 +50,13 @@ const EditForm = (props: propsType) => {
         }),
       });
 
-      // if (response.ok) {
-      //   const editedItem = await response.json();
-      //   const updatedItems = items.map((item: ItemType) =>
-      //     item.id === editedItem.id ? editedItem : item
-      //   );
-      //   mutate(updatedItems);
-      // }
+      if (response.ok) {
+        const editedItem = await response.json();
+        const updatedItems = items.map((item: ItemType) =>
+          item.id === editedItem.id ? editedItem : item
+        );
+        mutate(updatedItems);
+      }
     }
 
     setEditFlag(!editFlag)
@@ -68,18 +67,17 @@ const EditForm = (props: propsType) => {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
+    // console.log(response);
 
-    // if (response.ok) {
-    //   const deletedItem = await response.json();
-    //   const updatedItems = items.filter((item: ItemType) => item.id !== id);
-    //   mutate(updatedItems);
-    // }
+    if (response.ok) {
+      const updatedItems = items.filter((item: ItemType) => item.id !== id);
+      mutate(updatedItems);
+    }
   };
 
   return (
     <>
       <form
-        key={item.id}
         css={[styles.baseContainer, styles.itemContainer]}
       >
         <div css={styles.baseFlex}>
@@ -113,7 +111,7 @@ const EditForm = (props: propsType) => {
           <p css={styles.baseText}>最高温度</p>
           {
             editFlag && editItemId === item.id ?
-            <input css={styles.baseText} type="text" value={itemTemperature} onChange={(e) => setItemTemperature(e.target.value)} /> :
+            <input css={styles.baseText} type="text" value={itemTemperature ? itemTemperature : ''} onChange={(e) => setItemTemperature(e.target.value)} /> :
             <p css={styles.baseText}>{item.maximum_temperature}</p>
           }
         </div>
@@ -121,7 +119,7 @@ const EditForm = (props: propsType) => {
           <p css={styles.baseText}>収容人数</p>
           {
             editFlag && editItemId === item.id ?
-            <select name="capacity" css={styles.baseText} value={itemCapacity} onChange={(e) => setItemCapacity(e.target.value)}>
+            <select name="capacity" css={styles.baseText} value={itemCapacity ? itemCapacity : ''} onChange={(e) => setItemCapacity(e.target.value)}>
               <option value=""></option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -183,12 +181,12 @@ const styles = {
     display: flex;
     justify-content: space-between;
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       margin-top: ${vw(40)};
     }
 
     @media (min-width: ${PROJECT.BP}px) {
-      &:not(:first-child) {
+      &:not(:first-of-type) {
         margin-top: 40px;
       }
     }
@@ -205,12 +203,12 @@ const styles = {
   itemContainer: css `
     background-color: ${PROJECT.BGCOLOR};
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       margin-top: ${vw(40)};
     }
 
     @media (min-width: ${PROJECT.BP}px) {
-      &:not(:first-child) {
+      &:not(:first-of-type) {
         margin-top: 40px;
       }
     }

@@ -7,6 +7,7 @@ import { vw } from '../../utils/Responsive';
 import { ItemType } from "@/types/types";
 import EditForm from '../../components/manage/EditForm'
 import CreateForm from '../../components/manage/CreateForm'
+import { useItems } from "../../hooks/useItems";
 
 
 async function fetcher(key: string) {
@@ -14,25 +15,22 @@ async function fetcher(key: string) {
 }
 
 export default function Manage() {
-  const { data, isLoading, error } = useSWR(
-    "http://localhost:8080/allItems",
-    fetcher
-  );
+  const { items, isLoading, error, mutate } = useItems();
 
   return (
     <>
       <div css={styles.manageWrapper}>
 
         {/* アイテム一覧 */}
-        {data?.map((item: ItemType) => (
+        {items?.map((item: ItemType) => (
           <EditForm
-            items={data}
+            key={item.id}
             item={item}
           />
         ))}
 
         {/* アイテム追加 */}
-        <CreateForm items={data} />
+        <CreateForm />
       </div>
     </>
   );

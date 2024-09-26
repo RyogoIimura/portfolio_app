@@ -1,4 +1,3 @@
-import { API_URL } from "../constants/url";
 import useSWR from "swr";
 
 async function fetcher(key: string) {
@@ -6,12 +5,10 @@ async function fetcher(key: string) {
 }
 
 export const useItems = () => {
-  // useState の代わり
   const { data, isLoading, error, mutate } = useSWR(
-    `${API_URL}/allItems`,
+    `http://localhost:8080/allItems`,
     fetcher
   );
-  // console.log(data);
 
   return {
     items: data,

@@ -1,13 +1,13 @@
 "use client";
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
 
 import { PROJECT } from '../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
 import { Easing } from '../utils/Easing';
 import PageLinks from './PageLinks';
+
 
 type NavigationProps = {
   navFlag: boolean;
@@ -16,7 +16,7 @@ type NavigationProps = {
 
 const Navigation = (props: NavigationProps) => {
   const { navFlag, navOpen } = props;
-  console.log(navFlag);
+  // console.log(navFlag);
 
   return (
     <>

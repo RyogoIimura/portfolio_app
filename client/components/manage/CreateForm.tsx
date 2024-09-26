@@ -5,15 +5,11 @@ import { css } from "@emotion/react";
 import { PROJECT } from '../../data/AppData';
 import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
-import { ItemType } from "@/types/types";
-import { mutate } from "swr";
+import { useItems } from "../../hooks/useItems";
 
-type propsType = {
-  items: ItemType[];
-}
 
-const CreateForm = (props: propsType) => {
-  const { items } = props;
+const CreateForm = () => {
+  const { items, isLoading, error, mutate } = useItems();
 
   const [itemName, setItemName] = useState<string>('');
   const [itemCategory, setItemCategory] = useState<bigint>(BigInt(0));
@@ -38,10 +34,10 @@ const CreateForm = (props: propsType) => {
       }),
     });
 
-    // if (response.ok) {
-    //   const newItem = await response.json();
-    //   mutate([...items, newItem]);
-    // }
+    if (response.ok) {
+      const newItem = await response.json();
+      mutate([...items, newItem]);
+    }
 
     setAddFlag(!addFlag)
   };
@@ -133,12 +129,12 @@ const styles = {
     display: flex;
     justify-content: space-between;
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       margin-top: ${vw(40)};
     }
 
     @media (min-width: ${PROJECT.BP}px) {
-      &:not(:first-child) {
+      &:not(:first-of-type) {
         margin-top: 40px;
       }
     }
