@@ -49,6 +49,7 @@ const EditForm = (props: propsType) => {
           maximum_temperature: itemTemperature,
         }),
       });
+      console.log(response);
 
       if (response.ok) {
         const editedItem = await response.json();
@@ -63,11 +64,11 @@ const EditForm = (props: propsType) => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await fetch(`http://localhost:8080/deleteItem/${id}`, {
+    const response = await fetch(`http://localhost:8080/deleteItem/${item.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
-    // console.log(response);
+    console.log(response);
 
     if (response.ok) {
       const updatedItems = items.filter((item: ItemType) => item.id !== id);

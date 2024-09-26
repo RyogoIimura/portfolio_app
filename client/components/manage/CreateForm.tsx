@@ -15,7 +15,7 @@ const CreateForm = () => {
   const [itemCategory, setItemCategory] = useState<bigint>(BigInt(0));
   const [itemPrice, setItemPrice] = useState<string>('');
   const [itemTemperature, setItemTemperature] = useState<string | undefined>('');
-  const [itemCapacity, setItemCapacity] = useState<string | undefined>();
+  const [itemCapacity, setItemCapacity] = useState<string | undefined>('');
 
   const [addFlag, setAddFlag] = useState(false);
 
@@ -33,6 +33,7 @@ const CreateForm = () => {
         maximum_temperature: itemTemperature,
       }),
     });
+    console.log(response);
 
     if (response.ok) {
       const newItem = await response.json();
