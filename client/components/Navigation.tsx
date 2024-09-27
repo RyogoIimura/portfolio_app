@@ -1,7 +1,6 @@
 "use client";
 import { css } from "@emotion/react";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react"
 
 import { PROJECT } from '../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
@@ -17,7 +16,7 @@ type NavigationProps = {
 
 const Navigation = (props: NavigationProps) => {
   const { navFlag, navOpen } = props;
-  const { data: session } = useSession();
+  // console.log(navFlag);
 
   return (
     <>
@@ -51,11 +50,11 @@ const Navigation = (props: NavigationProps) => {
         <div>
           <PageLinks />
         </div>
-        <button
+        <Link
           className={` ${dela_gothic.className}`}
           css={[styles.signIn, Responsive.sp]}
-          onClick={() => signIn()}
-        >SIGN IN</button>
+          href=""
+        >SIGN IN</Link>
       </div>
     </>
   );
