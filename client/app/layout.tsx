@@ -1,9 +1,11 @@
 "use client";
 import "./globals.css";
+import NextAuthProvider from './providers/NextAuth'
 
 // import type { Metadata } from "next";
 import { Noto_Sans_JP } from 'next/font/google'
 import { HEAD } from '../data/AppData'
+import Header from "@/components/Header";
 import Footer from '../components/Footer'
 
 const noto_sans_jp = Noto_Sans_JP({
@@ -28,8 +30,11 @@ export default function RootLayout({
         <meta name="description" content={HEAD.DESCRIPTION}/>
       </head>
       <body className={noto_sans_jp.className}>
-        {children}
-        <Footer />
+        <NextAuthProvider>
+          <Header />
+          {children}
+          <Footer />
+        </NextAuthProvider>
       </body>
     </html>
   );

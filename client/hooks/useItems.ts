@@ -1,12 +1,14 @@
 import useSWR from "swr";
 
+import { API_URL } from "@/constants/url";
+
 async function fetcher(key: string) {
   return fetch(key).then((res) => res.json());
 }
 
 export const useItems = () => {
   const { data, isLoading, error, mutate } = useSWR(
-    `http://localhost:8080/allItems`,
+    `${API_URL}/allItems`,
     fetcher
   );
 
