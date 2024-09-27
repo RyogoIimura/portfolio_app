@@ -6,6 +6,7 @@ import { PROJECT } from '../../data/AppData';
 import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
 import { useItems } from "../../hooks/useItems";
+import { API_URL } from "@/constants/url";
 
 
 const CreateForm = () => {
@@ -22,7 +23,7 @@ const CreateForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch(`http://localhost:8080/createItem`, {
+    const response = await fetch(`${API_URL}/createItem`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

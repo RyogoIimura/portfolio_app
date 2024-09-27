@@ -7,6 +7,7 @@ import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
 import { ItemType } from "@/types/types";
 import { useItems } from '../../hooks/useItems';
+import { API_URL } from "@/constants/url";
 
 
 type propsType = {
@@ -38,7 +39,7 @@ const EditForm = (props: propsType) => {
 
   const handleSubmit = async () => {
     if (editFlag) {
-      const response = await fetch(`http://localhost:8080/editItem/${item.id}`, {
+      const response = await fetch(`${API_URL}/editItem/${item.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -64,7 +65,7 @@ const EditForm = (props: propsType) => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await fetch(`http://localhost:8080/deleteItem/${item.id}`, {
+    const response = await fetch(`${API_URL}/deleteItem/${item.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
