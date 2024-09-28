@@ -1,9 +1,8 @@
 "use client";
 import { css } from "@emotion/react";
-import Link from "next/link";
 import Image from "next/image";
 
-import { PROJECT } from '../data/AppData'
+import { PROJECT } from '../../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
 
@@ -14,8 +13,8 @@ const Footer = () => {
       <div
         css={styles.footerContainer}
       >
-        <Image src="/footer/footer_sp.jpg" alt="Footer Img" layout="fill" objectFit="contain" css={Responsive.sp} />
-        <Image src="/footer/footer_pc.jpg" alt="Footer Img" layout="fill" objectFit="contain" css={Responsive.pc} />
+        <Image src="/images/footer/footer_sp.jpg" alt="Footer Img" layout="fill" objectFit="contain" css={Responsive.sp} />
+        <Image src="/images/footer/footer_pc.jpg" alt="Footer Img" layout="fill" objectFit="contain" css={Responsive.pc} />
         <div
           css={styles.textWrapper}
         >

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { PROJECT } from '../data/AppData'
+import { PROJECT } from '../../data/AppData'
 
 // vw
 export const vw = (width: any) => `${100*(width/750)}vw`;

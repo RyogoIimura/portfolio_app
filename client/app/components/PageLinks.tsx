@@ -1,7 +1,7 @@
 "use client";
 import { css } from "@emotion/react";
 
-import { PROJECT } from '../data/AppData'
+import { PROJECT } from '../../data/AppData'
 import { dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
 

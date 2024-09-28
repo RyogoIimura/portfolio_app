@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
 
-import { PROJECT } from '../../data/AppData';
+import { PROJECT } from '../../../data/AppData';
 import { vw } from '../../utils/Responsive';
 import { dela_gothic } from "../../utils/Fonts";
 import { ItemType } from "@/types/types";
-import { useItems } from '../../hooks/useItems';
+import { useItems } from '../../../hooks/useItems';
 import { API_URL } from "@/constants/url";
 
 

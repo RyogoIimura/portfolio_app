@@ -1,18 +1,13 @@
 "use client";
 import { css } from "@emotion/react";
-import useSWR from "swr";
 
 import { PROJECT } from '../../data/AppData';
-import { vw } from '../../utils/Responsive';
+import { vw } from '../utils/Responsive';
 import { ItemType } from "@/types/types";
-import EditForm from '../../components/manage/EditForm'
-import CreateForm from '../../components/manage/CreateForm'
+import EditForm from '../components/manage/EditForm'
+import CreateForm from '../components/manage/CreateForm'
 import { useItems } from "../../hooks/useItems";
 
-
-async function fetcher(key: string) {
-  return fetch(key).then((res) => res.json());
-}
 
 export default function Manage() {
   const { items, isLoading, error, mutate } = useItems();

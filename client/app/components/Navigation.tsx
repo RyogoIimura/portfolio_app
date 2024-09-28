@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import Link from "next/link";
 
-import { PROJECT } from '../data/AppData'
+import { PROJECT } from '../../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
 import { vw, Responsive } from '../utils/Responsive';
 import { Easing } from '../utils/Easing';
@@ -52,7 +52,7 @@ const Navigation = (props: NavigationProps) => {
         </div>
         <Link
           className={` ${dela_gothic.className}`}
-          css={[styles.signIn, Responsive.sp]}
+          css={[styles.signInButton, Responsive.sp]}
           href=""
         >SIGN IN</Link>
       </div>
@@ -154,7 +154,7 @@ const styles = {
       margin-top: 110px;
     }
   `,
-  signIn: css `
+  signInButton: css `
     font-size: ${vw(38)};
     font-weight: 800;
     letter-spacing: .1em;
