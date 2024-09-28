@@ -1,6 +1,8 @@
 "use client";
 import { css } from "@emotion/react";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react"
+import Image from "next/image";
 
 import { PROJECT } from '../../data/AppData'
 import { manrope, dela_gothic } from "../utils/Fonts";
@@ -16,7 +18,8 @@ type NavigationProps = {
 
 const Navigation = (props: NavigationProps) => {
   const { navFlag, navOpen } = props;
-  // console.log(navFlag);
+  const { data: session } = useSession();
+  console.log(session);
 
   return (
     <>
@@ -40,7 +43,7 @@ const Navigation = (props: NavigationProps) => {
           ></div>
         </div>
         <h2
-          className={` ${manrope.className}`}
+          className={`${manrope.className}`}
           css={styles.navTitle}
         >AZUMA GORGE SAUNA</h2>
         <Link
@@ -50,11 +53,37 @@ const Navigation = (props: NavigationProps) => {
         <div>
           <PageLinks />
         </div>
-        <Link
-          className={` ${dela_gothic.className}`}
-          css={[styles.signInButton, Responsive.sp]}
-          href=""
-        >SIGN IN</Link>
+
+        {session ? (
+          <div css={[styles.userNavContainer, Responsive.sp]}>
+            <button css={styles.userNavButton}>
+              <Image
+                src={session.user?.image ?? "/images/auth/user_logo.svg"}
+                alt="UserLogo"
+                layout="fill"
+                objectFit="contain"
+              />
+            </button>
+            <div>
+              <button
+                className={` ${dela_gothic.className}`}
+                css={[styles.buttonText, styles.userNavText]}
+                onClick={() => signOut()}
+              >SIGN OUT</button>
+              <Link
+                className={` ${dela_gothic.className}`}
+                css={[styles.buttonText, styles.userNavText]}
+                href="./manage"
+              >MANAGE</Link>
+            </div>
+          </div>
+        ) : (
+          <button
+            className={` ${dela_gothic.className}`}
+            css={[styles.buttonText, styles.signInButton, Responsive.sp]}
+            onClick={() => signIn()}
+          >SIGN IN</button>
+        )}
       </div>
     </>
   );
@@ -80,7 +109,8 @@ const styles = {
     width: ${vw(550)};
     height: 100vh;
     background-color: ${PROJECT.KEYCOLOR};
-    padding: 0 0 ${vw(400)} ${vw(60)};
+    padding: 0 0 ${vw(260)} ${vw(60)};
+    overflow-y: scroll;
     position: fixed;
     z-index: 110;
     top: 0;
@@ -129,6 +159,7 @@ const styles = {
   hamburgerLine2: css `
     transform: translate(-50%, -50%) rotate(45deg);
   `,
+
   navTitle: css `
     font-size: 10px;
     font-weight: 800;
@@ -154,14 +185,31 @@ const styles = {
       margin-top: 110px;
     }
   `,
-  signInButton: css `
+
+  buttonText: css `
     font-size: ${vw(38)};
     font-weight: 800;
     letter-spacing: .1em;
     color: #fff;
+  `,
+  signInButton: css `
     display: inline-block;
     margin-top: ${vw(190)};
     text-decoration: none;
     border-bottom: 2px solid #fff;
+  `,
+  userNavContainer: css `
+    margin-top: ${vw(200)};
+  `,
+  userNavButton: css `
+    width: ${vw(100)};
+    height: ${vw(100)};
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+  `,
+  userNavText: css `
+    display: inline-block;
+    margin-top: ${vw(20)};
   `,
 }

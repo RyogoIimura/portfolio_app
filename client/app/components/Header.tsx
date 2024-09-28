@@ -32,21 +32,24 @@ const Header = () => {
             css={styles.reserveLink}
             href=""
           >▶︎　ご予約はこちらから</Link>
-          <h2
+          <Link
             className={` ${manrope.className}`}
             css={[styles.headerTitle, Responsive.pc]}
-          >AZUMA GORGE SAUNA</h2>
+            href='./lp'
+          >AZUMA GORGE SAUNA</Link>
           <div
             css={styles.hamburgerContainer}
           >
-            <h2
+            <Link
               className={` ${manrope.className}`}
               css={[styles.headerTitle, Responsive.sp]}
-            >AZUMA GORGE SAUNA</h2>
+              href='./lp'
+            >AZUMA GORGE SAUNA</Link>
+            
             {session ? (
               <div css={[styles.userNavContainer, Responsive.pc]}>
                 <button
-                  css={styles.signOutButton}
+                  css={styles.userNavButton}
                   onClick={userNavOpen}
                 >
                   <Image
@@ -65,12 +68,12 @@ const Header = () => {
                 >
                   <button
                     className={` ${dela_gothic.className}`}
-                    css={styles.buttonText}
+                    css={[styles.buttonText, styles.userNavText]}
                     onClick={() => signOut()}
                   >SIGN OUT</button>
                   <Link
                     className={` ${dela_gothic.className}`}
-                    css={styles.buttonText}
+                    css={[styles.buttonText, styles.userNavText]}
                     href="./manage"
                     onClick={userNavOpen}
                   >MANAGE</Link>
@@ -83,6 +86,7 @@ const Header = () => {
                 onClick={() => signIn()}
               >SIGN IN</button>
             )}
+
             <div
               css={styles.hamburger}
               onClick={navOpen}
@@ -166,50 +170,49 @@ const styles = {
       margin: auto 0;
     }
   `,
+
   buttonText: css `
-    @media (min-width: ${PROJECT.BP}px) {
-      font-size: 20px;
-      color: #fff;
-      letter-spacing: .02em;
-      text-wrap: nowrap;
-    }
+    font-size: 20px;
+    color: #fff;
+    letter-spacing: .02em;
+    text-wrap: nowrap;
   `,
   signInButton: css `
-  @media (min-width: ${PROJECT.BP}px) {
+    display: inline-block;
     margin: auto 30px auto 0;
-  }
-`,
+    text-decoration: none;
+    border-bottom: 2px solid #fff;
+  `,
   userNavContainer: css `
-    @media (min-width: ${PROJECT.BP}px) {
-      width: 50px;
-      height: 50px;
-      margin: auto 20px auto 0;
-      position: relative;
-    }
+    width: 50px;
+    height: 50px;
+    margin: auto 20px auto 0;
+    position: relative;
   `,
   userNav: css `
-    @media (min-width: ${PROJECT.BP}px) {
-      padding: 20px;
-      border-radius: 10px;
-      background-color: ${PROJECT.KEYCOLOR};
-      position: absolute;
-      bottom: -120px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+    padding: 20px 26px;
+    border-radius: 10px;
+    background-color: ${PROJECT.KEYCOLOR};
+    position: absolute;
+    bottom: -140px;
+    left: 50%;
+    transform: translateX(-50%);
   `,
   userNavAnime: css `
     display: none;
   `,
-  signOutButton: css `
-    @media (min-width: ${PROJECT.BP}px) {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-    }
+  userNavButton: css `
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
   `,
+  userNavText: css `
+    display: inline-block;
+    line-height: 1.8em;
+  `,
+
   hamburger: css`
     width: 50px;
     height: 100%;
